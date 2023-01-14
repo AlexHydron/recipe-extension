@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "Simple Image List Extension",
+  "description": "A simple extension that allows the user to add images, stores them in local storage, and shows them in a list within the extension popup.",
+  "version": "1.0",
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "activeTab",
+    "storage"
+	
+
+  ]
+}

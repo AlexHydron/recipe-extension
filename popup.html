@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Image List Extension</title>
+  </head>
+  <body>
+    <div id="image-list"></div>
+    <form>
+      <input type="file" id="image-file" accept="image/*">
+      <input type="button" value="Add Image" onclick="addImage()">
+    </form>
+    <script nonce="aRandomValue">
+      var nonce = 'aRandomValue';
+      // Load the images from local storage when the popup is opened
+      window.onload = function() {
+        chrome.storage.local.get("images", function(items) {
+          if (items.images) {
+            images = items.images;
+            updateImageList();
+          }
+        });
+      }
+
+      // Create an empty array to store the images
+      var images = [];
+
+      // Add the selected image to the images array and local storage
+      function addImage() {
+        var imageFile = document.getElementById("image-file").files[0];
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          images.push(e.target.result);
+          chrome.storage.local.set({"images": images});
+          updateImageList();
+        }
+        reader.readAsDataURL(imageFile);
+      }
+
+      // Update the image list in the popup
+      function updateImageList() {
+        var imageList = document.getElementById("image-list");
+        imageList.innerHTML = "";
+        for (var i = 0; i < images.length; i++) {
+          var img = document.createElement("img");
+          img.src = images[i];
+          imageList.appendChild(img);
+        }
+      }
+    </script>
+  </body>
+</html>
